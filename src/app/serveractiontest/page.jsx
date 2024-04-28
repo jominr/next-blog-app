@@ -1,7 +1,7 @@
 import { addPost, deletePost } from "@/lib/action"
 
 const ServerActionTestPage = () => {
-
+  // server action example: 适用于小型项目，对于复杂的业务，需要另外编写api
   // const actionInComponent = async ()=>{
   //   "use server"
   //   console.log("it works!")
