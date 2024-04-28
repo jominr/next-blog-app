@@ -15,12 +15,24 @@ import { getPosts } from "@/lib/data";
 //   return res.json();
 // }
 
+// fetch data with an API
+const getData = async () => {
+  const res = await fetch(
+    "http://localhost:3000/api/blog",
+    {next: {revalidate: 3600 }} // refresh data in every one hour
+  )
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  return res.json();
+}
+
 const BlogPage = async () => {
   // fetch data with an API
-  // const posts = await getData();
+  const posts = await getData();
 
   // fetch data without an api
-  const posts = await getPosts();
+  // const posts = await getPosts();
   return (
     <div className={styles.container}>
       {posts.map((post)=>(

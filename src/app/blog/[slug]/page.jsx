@@ -5,19 +5,23 @@ import { Suspense } from "react";
 import { getPost } from "@/lib/data";
 
 // FETCH DATA WITH AN API
-// const getData = async (slug) => {
-//   const res = await fetch(
-//     `https://jsonplaceholder.typicode.com/posts/${slug}`,
-//   )
-//   if (!res.ok) {
-//     throw new Error("Something went wrong");
-//   }
-//   return res.json();
-// }
+const getData = async (slug) => {
+  const res = await fetch(
+    `http://localhost:3000/api/blog/${slug}`,
+  )
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  return res.json();
+}
 
 export const generateMetadata = async ({params})=> {
   const {slug} = params;
-  const post = await getPost(slug);
+  // ferch data with an api
+  const post = await getData(slug);
+
+  // fetch data without an api
+  // const post = await getPost(slug);
   return {
     title: post.title,
     description: post.desc,
