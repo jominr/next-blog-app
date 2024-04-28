@@ -4,7 +4,6 @@ export const authConfig = {
   },
   providers: [],
   callbacks: {
-    // FOR MORE DETAIL ABOUT CALLBACK FUNCTIONS CHECK https://next-auth.js.org/configuration/callbacks
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -12,7 +11,7 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({session, token}) {
       if (token) {
         session.user.id = token.id;
         session.user.isAdmin = token.isAdmin;
@@ -24,26 +23,25 @@ export const authConfig = {
       const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");
       const isOnBlogPage = request.nextUrl?.pathname.startsWith("/blog");
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
-
-      // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
-
+      // only admin can reach the admin dashboard
       if (isOnAdminPanel && !user?.isAdmin) {
         return false;
       }
-
-      // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
-
+      // only authenticated users can reach the blog page
       if (isOnBlogPage && !user) {
         return false;
       }
-
-      // ONLY UNAUTHENTICATED USERS CAN REACH THE LOGIN PAGE
-
+      // only unauthenticated users can reach the login page
       if (isOnLoginPage && user) {
         return Response.redirect(new URL("/", request.nextUrl));
       }
 
-      return true
-    },
-  },
-};
+      return true;
+
+      // return false; // 如果直接返回false，url改任何页面都会被拒绝，因此我们根据auth(session)来判断。
+    }
+  }
+}
+
+
+
