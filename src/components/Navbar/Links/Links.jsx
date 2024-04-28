@@ -27,9 +27,6 @@ const links = [
 const Links = ({session}) => {
   const [open, setOpen] = useState(false);
 
-  const isAdmin = false;
-
-
   return (
     <div className={styles.container}>
       <div className={styles.links}>
@@ -56,6 +53,16 @@ const Links = ({session}) => {
             <NavLink item={link} key={link.title}/>
           ))}
 
+          {session?.user ? (
+            <>
+              {session.user?.isAdmin && (<NavLink item={{title: "Admin", path: "/admin"}}/>)}
+              <form action={handleLogout}>
+                <button className={styles.logout}>Logout</button>
+              </form>
+            </>
+          ) : (
+            <NavLink item={{title: "Login", path: "/login"}}/>
+          )}
 
         </div>
       }

@@ -7,7 +7,7 @@ import { signIn, signOut } from "./auth";
 import bcrypt from "bcryptjs";
 
 
-export const addPost = async (formData)=> {
+export const addPost = async (prevState, formData)=> {
 
   // console.log("formData", formData);
   // const title = formData.get("title");
@@ -24,12 +24,12 @@ export const addPost = async (formData)=> {
     });
     await newPost.save();
     revalidatePath("/blog");
+    revalidatePath("/admin");
     console.log("save to db")
   } catch (error) {
     console.log(error);
-    throw new Error("Something went wrong")
+    return { error: "Something went wrong"}
   }
-  console.log("formData", title, desc, slug, userId);
 }
 
 export const deletePost = async (formData)=> {
@@ -41,11 +41,50 @@ export const deletePost = async (formData)=> {
     await Post.findByIdAndDelete(id);
     console.log("delete from db")
     revalidatePath("/blog");
+    revalidatePath("/admin");
   } catch (error) {
     console.log(error);
-    throw new Error("Something went wrong")
+    return { error: "Something went wrong" }
   }
 }
+
+export const addUser = async (prevState, formData)=> {
+
+  const { username, email, password, img } = Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+    const newUser = new User({
+      username, email, password, img,
+    });
+    await newUser.save();
+    revalidatePath("/admin");
+    console.log("save to db")
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong"}
+  }
+}
+
+export const deleteUser = async (formData)=> {
+
+  const { id } = Object.fromEntries(formData);
+  
+  try {
+    connectToDB();
+
+    await Post.deleteMany({userId: id});
+
+    await User.findByIdAndDelete(id);
+
+    console.log("delete from db")
+    revalidatePath("/admin");
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong" }
+  }
+}
+
 
 export const handleGithubLogin = async ()=>{
   await signIn("github"); // there are many providers, we are going to use github
