@@ -73,7 +73,7 @@ export const {
         }
       }
       return true;
-    }
+    },
+    ...authConfig.callbacks, // 防止被重写
   },
-  ...authConfig.callbacks, // 防止被重写
 });
