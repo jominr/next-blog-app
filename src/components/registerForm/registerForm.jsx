@@ -1,4 +1,5 @@
 "use client";
+// usehook 就必须在client
 
 import { register } from "@/lib/action";
 import styles from "./registerForm.module.css";
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const RegisterForm = () => {
+  // 通过useFormState捕捉错误和正确信息
   const [state, formAction] = useFormState(register, undefined);
 
   const router = useRouter();
