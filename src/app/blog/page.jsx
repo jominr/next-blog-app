@@ -16,6 +16,7 @@ import { getPosts } from "@/lib/data";
 // }
 
 // fetch data with an API
+// 通过请求/api/blog的方式来获取数据
 const getData = async () => {
   const res = await fetch(
     "http://localhost:3000/api/blog",

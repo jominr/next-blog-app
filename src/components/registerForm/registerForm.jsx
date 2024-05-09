@@ -10,6 +10,8 @@ import Link from "next/link";
 
 const RegisterForm = () => {
   // 通过useFormState捕捉错误和正确信息
+  // 这有点像react-query，把方法传进去，给我们isloading, isSuccess，data等状态。
+  // 我们要用hook, 就需要 "use client";
   const [state, formAction] = useFormState(register, undefined);
 
   const router = useRouter();

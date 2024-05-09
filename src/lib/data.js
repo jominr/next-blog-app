@@ -14,6 +14,8 @@ import { unstable_noStore } from "next/cache";
 //   { id: 4, title: "Post 4", body: "......", userId: 2 },
 // ];
 
+// 获取数据。 
+
 export const getPosts = async ()=>{
   try {
     connectToDB();

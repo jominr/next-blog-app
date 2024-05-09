@@ -6,6 +6,7 @@ import { connectToDB } from "./utils";
 import { signIn, signOut } from "./auth";
 import bcrypt from "bcryptjs";
 
+// 操作数据
 
 export const addPost = async (prevState, formData)=> {
 
@@ -85,7 +86,7 @@ export const deleteUser = async (formData)=> {
   }
 }
 
-
+// 使用nextAuth提供的方法实现登录，登出。
 export const handleGithubLogin = async ()=>{
   await signIn("github"); // there are many providers, we are going to use github
 }
@@ -106,6 +107,7 @@ export const register = async (previousState, formData) => {
     if (user) {
       return { error: "Username already exists" };
     }
+    // generate salt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User({
@@ -124,9 +126,11 @@ export const login = async (previousState, formData) => {
   const { username, password } = Object.fromEntries(formData);
   
   try {
+    // 使用的是用户名、密码的登录方式，也就是“credentials” 证书
     await signIn("credentials", {username, password});
   } catch (error) {
     if (error.message.includes("credentialssignin")) {
+      // 这是为了useFormState能捕捉到error
       return {error: "Invalid username or password"};
     }
     throw error;

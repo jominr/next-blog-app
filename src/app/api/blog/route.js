@@ -2,6 +2,8 @@ import { Post } from "@/lib/models";
 import { connectToDB } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
+// api/blog/route
+
 export const GET = async (request) => {
   try {
     connectToDB();

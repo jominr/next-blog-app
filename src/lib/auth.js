@@ -3,6 +3,7 @@ import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "./utils";
 import { User } from "./models";
+// 注意这里是bcryptjs不是bcrypt
 import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 
@@ -27,6 +28,8 @@ const login = async (credentials) => {
   }
 };
 
+// initialization
+// 从auth这里拿session, 还提供了signIn和signOut方法。
 export const {
   handlers: { GET, POST },
   auth,
@@ -35,11 +38,14 @@ export const {
 } = NextAuth({
   ...authConfig,
   providers: [
+    // 这里定义了两种登录方式，一种是github登录，
     GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
+    // 一种是自定义的登录
     CredentialsProvider({
+      // 定义授权的方法
       async authorize(credentials) {
         try {
           const user = await login(credentials);
@@ -51,6 +57,8 @@ export const {
     }),
   ],
   callbacks: {
+    // 这里定义了github登录以后的callback，
+    // db没有用户的话就创建用户
     async signIn({ user, account, profile }) {
       if (account.provider === "github") {
         connectToDB();
@@ -73,6 +81,9 @@ export const {
       }
       return true;
     },
+    // authorized({auth, request,}) {
+      // 写authorization rules, 例如我们要重定向到admin还是其他页面
+    // } // 因为middleware不能用那些js库，db什么的，所以我们写在了auth.config里面。
     ...authConfig.callbacks,
   },
 });

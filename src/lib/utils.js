@@ -1,9 +1,12 @@
 import mongoose from "mongoose"
 
+// 参考：https://mongoosejs.com/docs/connections.html
+
 const connection = {};
 
 export const connectToDB = async() => {
   try {
+    // 避免重新创建一个数据库连接，以防数据库连接池打满
     if (connection.isConnected) {
       console.log("Using existing connection");
       return;

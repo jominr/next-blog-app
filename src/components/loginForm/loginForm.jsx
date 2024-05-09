@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const LoginForm = () => {
   const [state, formAction] = useFormState(login, undefined);
-
+  // 登录成功以后，通过nextjs middleware的方式，检查user permission, 跳转到可以访问的页面。
   return (
     <form className={styles.form} action={formAction}>
       <input type="text" placeholder="username" name="username" />

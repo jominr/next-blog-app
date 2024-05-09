@@ -4,6 +4,7 @@ import styles from "./navbar.module.css"
 import { auth } from "@/lib/auth";
 
 const Navbar = async () => {
+  // 或者session
   const session = await auth();
   return (
     <div className={styles.container}>

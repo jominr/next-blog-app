@@ -2,6 +2,8 @@ import { Post } from "@/lib/models";
 import { connectToDB } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
+// endpoint: api/blog/23895789
+// it is a API route.
 export const GET = async (request, {params}) => {
   const { slug } = params;
   try {

@@ -51,5 +51,6 @@ const postSchema = new mongoose.Schema({
   },
 }, {timestamps: true});
 
+// 查找或者创建
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
 export const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
